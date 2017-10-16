@@ -60,21 +60,33 @@ public class CommunicatorConfig {
     }
 
     public CommunicatorConfig load(Config conf) {
+        // 主控QueryObj的地址
         locator = conf.get("/tars/application/client<locator>");
-        logPath = conf.get("/tars/application/client<logpath>", null);
         logLevel = conf.get("/tars/application/client<loglevel>", "INFO");
         dataPath = conf.get("/tars/application/client<cdatapath>", null);
+        // 同步调用超时时间，单位毫秒
         syncInvokeTimeout = conf.getInt("/tars/application/client<sync-invoke-timeout>", 3000);
+        // 异步调用超时时间，单位毫秒
         asyncInvokeTimeout = conf.getInt("/tars/application/client<async-invoke-timeout>", 3000);
+        // 刷新servant name对应地址信息的时间间隔
         refreshEndpointInterval = conf.getInt("/tars/application/client<refresh-endpoint-interval>", 60000);
+        // 统计对象
         stat = conf.get("/tars/application/client<stat>");
+        // 特性监控使用的上报对象
         property = conf.get("/tars/application/client<property>");
+        // 上报周期
         reportInterval = conf.getInt("/tars/application/client<report-interval>", 60000);
+        // 采样率
         sampleRate = conf.getInt("/tars/application/client<sample-rate>", 1000);
+        // 最大采样次数
         maxSampleCount = conf.getInt("/tars/application/client<max-sample-count>", 100);
+        // 异步发送线程数
         sendThread = conf.getInt("/tars/application/client<sendthread>", 1);
+        // 异步接收线程数
         recvThread = conf.getInt("/tars/application/client<recvthread>", 1);
+        // 异步回调线程数
         asyncThread = conf.getInt("/tars/application/client<asyncthread>", 1);
+        // 模块名，格式是app.server,如Shuame.LogServer
         moduleName = conf.get("/tars/application/client<modulename>", Constants.default_modulename);
         String enableSetStr = conf.get("/tars/application<enableset>");
         setDivision = conf.get("/tars/application<setdivision>");
@@ -340,28 +352,47 @@ public class CommunicatorConfig {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((locator == null) ? 0 : locator.hashCode());
-        result = prime * result + ((moduleName == null) ? 0 : moduleName.hashCode());
+        result = (prime * result) + ((locator == null) ? 0 : locator.hashCode());
+        result = (prime * result) + ((moduleName == null) ? 0 : moduleName.hashCode());
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         CommunicatorConfig other = (CommunicatorConfig) obj;
         if (locator == null) {
-            if (other.locator != null) return false;
-        } else if (!locator.equals(other.locator)) return false;
+            if (other.locator != null) {
+                return false;
+            }
+        } else if (!locator.equals(other.locator)) {
+            return false;
+        }
         if (moduleName == null) {
-            if (other.moduleName != null) return false;
-        } else if (!moduleName.equals(other.moduleName)) return false;
+            if (other.moduleName != null) {
+                return false;
+            }
+        } else if (!moduleName.equals(other.moduleName)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return String.format("CommunicatorConfig [locator=%s, syncInvokeTimeout=%s, asyncInvokeTimeout=%s, refreshEndpointInterval=%s, reportInterval=%s, stat=%s, property=%s, sampleRate=%s, maxSampleCount=%s, sendThread=%s, recvThread=%s, asyncThread=%s, moduleName=%s, enableSet=%s, setDivision=%s, connections=%s, connectTimeout=%s, corePoolSize=%s, maxPoolSize=%s, keepAliveTime=%s, queueSize=%s, charsetName=%s, logPath=%s, logLevel=%s, dataPath=%s]", locator, syncInvokeTimeout, asyncInvokeTimeout, refreshEndpointInterval, reportInterval, stat, property, sampleRate, maxSampleCount, sendThread, recvThread, asyncThread, moduleName, enableSet, setDivision, connections, connectTimeout, corePoolSize, maxPoolSize, keepAliveTime, queueSize, charsetName, logPath, logLevel, dataPath);
+        return String.format(
+                "CommunicatorConfig [locator=%s, syncInvokeTimeout=%s, asyncInvokeTimeout=%s, refreshEndpointInterval=%s, reportInterval=%s, stat=%s, property=%s, sampleRate=%s, maxSampleCount=%s, sendThread=%s, recvThread=%s, asyncThread=%s, moduleName=%s, enableSet=%s, setDivision=%s, connections=%s, connectTimeout=%s, corePoolSize=%s, maxPoolSize=%s, keepAliveTime=%s, queueSize=%s, charsetName=%s, logPath=%s, logLevel=%s, dataPath=%s]",
+                locator, syncInvokeTimeout, asyncInvokeTimeout, refreshEndpointInterval, reportInterval, stat, property,
+                sampleRate, maxSampleCount, sendThread, recvThread, asyncThread, moduleName, enableSet, setDivision,
+                connections, connectTimeout, corePoolSize, maxPoolSize, keepAliveTime, queueSize, charsetName, logPath,
+                logLevel, dataPath);
     }
 }
